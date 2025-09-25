@@ -24,11 +24,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
+        <header style={{padding:12, borderBottom:'1px solid #eee'}}>
+          <nav style={{display:'flex', gap:16}}>
+            <a href="/">Accueil</a>
+            <a href="/taxa">Taxons</a>
+            <a href="/identify">Identifier</a>
+          </nav>
+        </header>
         {children}
       </body>
+
+
     </html>
   );
 }
