@@ -12,7 +12,15 @@ type TcsRow = {
   state: StateMini | null;
 };
 
-// Normalise: prend soit un objet, soit un tableau d'objets, renvoie le premier objet (ou null)
+// Données brutes renvoyées par Supabase (relations potentiellement en tableaux)
+type RawRow = {
+  taxon_id: string | null;
+  certainty: string | null;
+  taxon: TaxonMini | TaxonMini[] | null;
+  character: CharacterMini | CharacterMini[] | null;
+  state: StateMini | StateMini[] | null;
+};
+
 function firstOrNull<T>(v: T | T[] | null | undefined): T | null {
   if (Array.isArray(v)) return (v[0] ?? null) as T | null;
   return (v ?? null) as T | null;
@@ -33,8 +41,8 @@ export default async function MatrixPage() {
     return <main style={{ padding: 24 }}>Erreur : {error.message}</main>;
   }
 
-  // data peut contenir taxon/character/state sous forme de tableaux : on normalise ici
-  const rows: TcsRow[] = (data ?? []).map((r: any) => ({
+  const rawRows = (data ?? []) as RawRow[];
+  const rows: TcsRow[] = rawRows.map((r) => ({
     taxon_id: r.taxon_id ?? null,
     certainty: r.certainty ?? null,
     taxon: firstOrNull<TaxonMini>(r.taxon),
@@ -42,7 +50,6 @@ export default async function MatrixPage() {
     state: firstOrNull<StateMini>(r.state),
   }));
 
-  // Regrouper par taxon
   const byTaxon = new Map<string, { name: string; rows: TcsRow[] }>();
   for (const r of rows) {
     const id = r.taxon?.id ?? null;
@@ -52,7 +59,6 @@ export default async function MatrixPage() {
     byTaxon.get(id)!.rows.push(r);
   }
 
-  // Trier les caractères par order_index
   for (const v of byTaxon.values()) {
     v.rows.sort(
       (a, b) => (a.character?.order_index ?? 0) - (b.character?.order_index ?? 0)
