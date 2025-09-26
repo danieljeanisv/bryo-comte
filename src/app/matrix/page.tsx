@@ -2,13 +2,21 @@ import { supabase } from '@/lib/supabaseClient';
 
 type CharacterMini = { id: string; name: string; order_index: number };
 type StateMini = { id: string; code: string; label: string };
+type TaxonMini = { id: string; full_name: string };
+
 type TcsRow = {
   taxon_id: string | null;
   certainty: string | null;
-  taxon: { id: string; full_name: string } | null;
+  taxon: TaxonMini | null;
   character: CharacterMini | null;
   state: StateMini | null;
 };
+
+// Normalise: prend soit un objet, soit un tableau d'objets, renvoie le premier objet (ou null)
+function firstOrNull<T>(v: T | T[] | null | undefined): T | null {
+  if (Array.isArray(v)) return (v[0] ?? null) as T | null;
+  return (v ?? null) as T | null;
+}
 
 export default async function MatrixPage() {
   const { data, error } = await supabase
@@ -24,12 +32,20 @@ export default async function MatrixPage() {
   if (error) {
     return <main style={{ padding: 24 }}>Erreur : {error.message}</main>;
   }
-  const rows: TcsRow[] = (data ?? []) as TcsRow[];
+
+  // data peut contenir taxon/character/state sous forme de tableaux : on normalise ici
+  const rows: TcsRow[] = (data ?? []).map((r: any) => ({
+    taxon_id: r.taxon_id ?? null,
+    certainty: r.certainty ?? null,
+    taxon: firstOrNull<TaxonMini>(r.taxon),
+    character: firstOrNull<CharacterMini>(r.character),
+    state: firstOrNull<StateMini>(r.state),
+  }));
 
   // Regrouper par taxon
   const byTaxon = new Map<string, { name: string; rows: TcsRow[] }>();
   for (const r of rows) {
-    const id = r.taxon?.id;
+    const id = r.taxon?.id ?? null;
     const name = r.taxon?.full_name ?? '—';
     if (!id) continue;
     if (!byTaxon.has(id)) byTaxon.set(id, { name, rows: [] });
