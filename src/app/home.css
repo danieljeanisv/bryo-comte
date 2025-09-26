@@ -1,0 +1,64 @@
+/* src/app/home.css */
+
+/* Positions ajustables */
+:root{
+  --bc-pos-buttons: 25%;  /* boutons vers le haut */
+  --bc-pos-text: 75%;     /* bloc texte vers le bas */
+}
+
+/* Fond image plein écran (moins le header) */
+.bc-hero-full{
+  position: relative;
+  min-height: calc(100vh - 57px);
+  background: #111 center/cover no-repeat url('/hero.jpg');
+}
+
+/* Couches centrées */
+.bc-overlay{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90vw, 1000px);
+}
+
+/* Boutons au quart supérieur */
+.bc-buttons{
+  top: var(--bc-pos-buttons);
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* Bloc texte aux trois quarts */
+.bc-textbox{ top: var(--bc-pos-text); }
+.bc-textbox-inner{
+  margin: 0 auto;
+  max-width: 900px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #e6e6e6;
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+.bc-textbox-inner h1{ margin: 0 0 6px; font-size: 28px; letter-spacing: -0.01em; }
+.bc-textbox-inner p{ margin: 0; color: #444; line-height: 1.5; font-size: 16px; }
+
+/* Boutons */
+.bc-btn{
+  display: inline-block;
+  padding: 12px 18px;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  background: #fff;
+  text-decoration: none;
+  color: #111;
+  backdrop-filter: blur(2px);
+}
+.bc-btn:hover{ border-color: #166534; }
+
+.bc-btn-primary{
+  background: #166534;
+  color: #fff;
+  border-color: #166534;
+}
+.bc-btn-primary:hover{ background: #22c55e; border-color: #22c55e; }

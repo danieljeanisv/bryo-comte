@@ -1,103 +1,85 @@
-import Image from "next/image";
-
+// src/app/page.tsx
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // Styles inline (aucun .css nécessaire)
+  const hero: React.CSSProperties = {
+    position: 'relative',
+    minHeight: 'calc(100vh - 57px)', // plein écran moins le header
+    backgroundImage: "url('/hero.jpeg')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: '#111', // fallback si l'image n'est pas trouvée
+  };
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const overlayBase: React.CSSProperties = {
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: 'min(90vw, 1000px)',
+  };
+
+  const buttonsRow: React.CSSProperties = {
+    ...overlayBase,
+    top: '25%', // place les boutons au 1/4 haut de la page
+    display: 'flex',
+    gap: '12px',
+    justifyContent: 'center',
+  };
+
+  const btn: React.CSSProperties = {
+    display: 'inline-block',
+    padding: '12px 18px',
+    border: '1px solid #e6e6e6',
+    borderRadius: 10,
+    background: '#fff',
+    textDecoration: 'none',
+    color: '#111',
+    backdropFilter: 'blur(2px)',
+  };
+
+  const btnPrimary: React.CSSProperties = {
+    ...btn,
+    background: '#166534',
+    color: '#fff',
+    borderColor: '#166534',
+  };
+
+  const textWrap: React.CSSProperties = {
+    ...overlayBase,
+    top: '75%', // place le bloc texte aux 3/4 bas
+  };
+
+  const textBox: React.CSSProperties = {
+    margin: '0 auto',
+    maxWidth: 900,
+    background: 'rgba(255,255,255,0.9)',
+    border: '1px solid #e6e6e6',
+    borderRadius: 14,
+    padding: '18px 20px',
+    boxShadow: '0 10px 30px rgba(0,0,0,.08)',
+  };
+
+  const h1: React.CSSProperties = { margin: '0 0 6px', fontSize: 28, letterSpacing: '-0.01em' };
+  const p: React.CSSProperties = { margin: 0, color: '#444', lineHeight: 1.5, fontSize: 16 };
+
+  return (
+    <main style={hero}>
+      {/* Boutons */}
+      <div style={buttonsRow}>
+        <a style={btnPrimary} href="/identify">Identifier</a>
+        <a style={btn} href="/taxa">Taxons</a>
+      </div>
+
+      {/* Texte */}
+      <div style={textWrap}>
+        <div style={textBox}>
+          <h1 style={h1}>Bryo-Comté</h1>
+          <p style={p}>
+            Atlas visuel & outil d’identification des bryophytes — Forêt de la Comté.
+            Un projet alliant esthétique et base documentaire accessible en ligne.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }

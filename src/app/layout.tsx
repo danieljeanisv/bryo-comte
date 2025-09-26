@@ -8,20 +8,17 @@ const geistMono = Geist_Mono({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Bryo-Comté',
-  description: 'Atlas et outil d’identification des bryophytes – Forêt de la Comté',
+  description: 'Atlas & outil d’identification des bryophytes – Forêt de la Comté',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      {/* on utilise les deux fonts pour éviter les warnings */}
       <body className={`${geistSans.className} ${geistMono.className} antialiased`}>
         <header style={{ padding: 12, borderBottom: '1px solid #eee' }}>
-          <nav style={{ display: 'flex', gap: 16 }}>
-            <Link href="/">Accueil</Link>
-            <Link href="/taxa">Taxons</Link>
+          <nav style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
             <Link href="/identify">Identifier</Link>
-            <Link href="/matrix">Matrix</Link>
+            <Link href="/taxa">Taxons</Link>
           </nav>
         </header>
         {children}
